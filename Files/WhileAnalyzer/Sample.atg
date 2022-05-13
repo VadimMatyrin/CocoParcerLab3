@@ -1,0 +1,22 @@
+COMPILER Sample
+CHARACTERS
+	digit      = '0'..'9'.
+	letter     = 'a'..'z'.
+	stringchar = ANY - '\''.
+TOKENS
+	number = digit {digit}.
+	ident = letter {digit|letter|'_'}.
+    string  = "\'" {stringchar | "\'\'"} "\'".
+	relOp = "==" | "===" | ">" | ">=" | "<" |  "<=" | "!=" | "!==".
+	mathSymb = "+" | "-" | "*" | "/" | "%".
+	while = "while".
+	semicol = ";".
+IGNORE '\r' + '\n' + '\t'
+PRODUCTIONS
+	Sample = {Expr}.
+	Expr = while "(" boolean ")" body.
+	boolean = (ident|number) relOp (ident|number).
+	body = ("{" statement {statement}"}")|(statement).
+	statement = ident '=' (math | string | number | ident)[semicol].
+	math = ("(" number {(mathSymb (math|number))} ")")|(number {(mathSymb (math|number))}).
+END Sample.
